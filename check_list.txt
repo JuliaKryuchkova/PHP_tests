@@ -1,0 +1,166 @@
+1.
+POST http://3.145.97.83:3333/user/create
+"Accept: application/json",
+"Content-Type: application/json"
+{
+  "username": "Anna_Test",
+  "email": "Anna_test@gmail.com",
+  "password": "1q2w3e"
+}
+Проверить, что Status Code: 200 OK возвращается после отправки запроса
+Проверить, что валидный JSON в Response body возвращается после отправки запроса
+Проверить, что JSON ответ соответствует требуемой модели данных после отправки запроса
+Проверить, что значения Headers (content-type, connection, keep-alive) соответствуют спецификации после отправки запроса
+
+2.
+GET http://3.145.97.83:3333/user/get?id=%id из Response body запроса POST (кейс 1)%
+Проверить, что Status Code: 200 OK возвращается после отправки запроса
+Проверить, что значения в параметрах JSON ответа (username, email, password) соответствуют данным отправленным при POST запросе (кейс 1)
+Проверить, что значения дат в параметрах JSON ответа (created_at, updated_at) соответствуют требуемому часовому поясу
+Проверить, что валидный JSON в Response body возвращается после отправки запроса
+Проверить, что JSON ответ соответствует требуемой модели данных после отправки запроса
+Проверить, что значения Headers (content-type, connection, keep-alive) соответствуют спецификации после отправки запроса
+
+    2.1 GET http://3.145.97.83:3333/user/get?username=Anna_Test
+Проверить, что Status Code: 200 OK возвращается после отправки запроса
+Проверить, что JSON ответ соответствует требуемой модели данных после отправки запроса
+Проверить, что значения Headers (content-type, connection, keep-alive) соответствуют спецификации после отправки запроса
+	
+	2.2 GET http://3.145.97.83:3333/user/get?email=Anna_test@gmail.com
+Проверить, что Status Code: 200 OK возвращается после отправки запроса
+Проверить, что JSON ответ соответствует требуемой модели данных после отправки запроса
+Проверить, что значения Headers (content-type, connection, keep-alive) соответствуют спецификации после отправки запроса	
+
+3.
+GET http://3.145.97.83:3333/user/get
+Проверить, что Status Code: 200 OK возвращается после отправки запроса
+Проверить, что все пользователи возвращаются после отправки запроса
+Проверить, что значение password в Response body возвращается в зашифрованном виде
+
+4.
+POST http://3.145.97.83:3333/user/create
+"Accept: application/json",
+"Content-Type: application/json"
+{
+  "username": "%max/min_value%",
+  "email": "max/min_value",
+  "password": "max/min_value"
+}
+Проверить, что Status Code: 200 OK возвращается после отправки запроса, в котором Response body содержит максимально допустимые значения параметров (username, email, password) согласно требованиям
+Проверить, что Status Code: 200 OK возвращается после отправки запроса, в котором Response body содержит минимально допустимые значения параметров (username, email, password) согласно требованиям
+
+5.
+GET http://3.145.97.83:3333/user/get?id=%id из Response body запроса POST (кейс 4)%
+Проверить, что Status Code: 200 OK возвращается после отправки запроса
+Проверить, что значения в параметрах JSON ответа (username, email, password) соответствуют данным отправленным при POST запросе (кейс 4) c max/min_value
+
+6.
+POST http://3.145.97.83:3333/user/create
+"Accept: application/json",
+"Content-Type: application/json"
+{
+  "username": " ",
+  "email": "Anna_test1@gmail.com",
+  "password": "1q2w3e"
+}
+Проверить, что Status Code: 400 Bad Request возвращается после отправки запроса с пустым значением username
+Проверить, что message = "A username is required" возвращается после отправки запроса с пустым значением username
+Проверить, что success = false возвращается после отправки запроса с пустым значением username
+
+7.
+POST http://3.145.97.83:3333/user/create
+"Accept: application/json",
+"Content-Type: application/json"
+{
+  "username": "Anna1_Test",
+  "email": " ",
+  "password": "1q2w3e"
+}
+Проверить, что Status Code: 400 Bad Request возвращается после отправки запроса с пустым значением email
+Проверить, что message = "A email is required" возвращается после отправки запроса с пустым значением email
+Проверить, что success = false возвращается после отправки запроса с пустым значением email
+
+8.
+POST http://3.145.97.83:3333/user/create
+"Accept: application/json",
+"Content-Type: application/json"
+{
+  "username": "Anna2_Test",
+  "email": "Anna2_test@gmail.com",
+  "password": ""
+}
+Проверить, что Status Code: 400 Bad Request возвращается после отправки запроса с пустым значением password
+Проверить, что message = "A password is required" возвращается после отправки запроса с пустым значением password
+Проверить, что success = false возвращается после отправки запроса с пустым значением password
+
+9.
+POST http://3.145.97.83:3333/user/create
+"Accept: application/json",
+"Content-Type: application/json"
+{
+  "username": "Anna_Test",
+  "email": "Anna_test3@gmail.com",
+  "password": "1q2w3e"
+}
+Проверить, что Status Code: 400 Bad Request возвращается после отправки запроса с уже существующим значением username
+Проверить, что message = "This username is taken. Try another." возвращается после отправки запроса с уже существующим значением username
+Проверить, что success = false возвращается после отправки запроса с уже существующим значением username
+
+10.
+POST http://3.145.97.83:3333/user/create
+"Accept: application/json",
+"Content-Type: application/json"
+{
+  "username": "Anna_Test3",
+  "email": "Anna_test@gmail.com",
+  "password": "1q2w3e"
+}
+Проверить, что Status Code: 400 Bad Request возвращается после отправки запроса с уже существующим значением email
+Проверить, что message = "This email is taken. Try another." возвращается после отправки запроса с уже существующим значением email
+Проверить, что success = false возвращается после отправки запроса с уже существующим значением email
+
+11.
+GET http://3.145.97.83:3333/user/get?id=%несуществующий id%
+Проверить, что Status Code: 200 OK возвращается после отправки запроса
+Проверить, что пустой ответ возвращается после отправки запроса
+
+12.
+POST http://3.145.97.83:3333/user/create
+"Accept: application/json",
+"Content-Type: application/json"
+{
+  "username": "Anna_Test3",
+  "email": "Anna_test@gmail.com"
+}
+Проверить, что Status Code: 400 Bad Request возвращается после отправки запроса без требуемого параметра в Body
+Проверить, что message = "A password for the user" возвращается после отправки запроса без требуемого параметра в Body
+Проверить, что success = false возвращается после отправки запроса без требуемого параметра в Body
+
+13.
+POST http://3.145.97.83:3333/user/create
+Проверить, что Status Code: 400 Bad Request возвращается после отправки запроса со значениями параметров, в котором количество символов превышает допустимую длину
+Проверить, что текст параметра message соответствует ошибке после отправки запроса со значениями параметров, в котором количество символов превышает допустимую длину
+
+14.
+POST http://3.145.97.83:3333/user/create
+Проверить, что Status Code: 400 Bad Request возвращается после отправки запроса со значениями параметров, в котором присутствуют недопустимые символы
+Проверить, что текст параметра message соответствует ошибке после отправки запроса со значениями параметров, в котором присутствуют недопустимые символы
+
+15.
+POST http://3.145.97.83:3333/user/create
+"Content-Type: multipart/form-data"
+Проверить, что Status Code: 415 Unsupported Media Type возвращается после отправки запроса с Content-Type отличным от требуемого
+
+16.
+POST http://3.145.97.83:3333/user/create
+Проверить добавление данных при одновременном вызове нескольких POST запросов
+
+17.
+DELETE http://3.145.97.83:3333/user/create
+DELETE http://3.145.97.83:3333/user/get?username=Anna_Test
+Проверить, что Status Code: 404Not Found возвращается после отправки запроса с методом DELETE
+
+18.
+GET http://3.145.97.83:3333/user/get?username=Anna_Test OR 1=1
+Проверить, что Status Code: 200 OK возвращается после отправки запроса
+Проверить, что пустой ответ возвращается после отправки запроса с инъекцией
